@@ -19,7 +19,7 @@ import java.nio.file.Paths;
         mixinStandardHelpOptions = true)
 public class App implements Callable<Integer> {
     @Option(names = { "-f", "--format" }, paramLabel = "format", description = "output format [default: stylish]")
-    String format = "filepath1 filepath2";
+    private String format = "filepath1 filepath2";
 
     @Parameters(paramLabel = "filepath1", description = "path to first file")
     private String filePath1;
@@ -38,7 +38,9 @@ public class App implements Callable<Integer> {
 
     public static Map<String, String> readDataFromJson(String jsonFile) throws IOException {
         ObjectMapper dataMapper = new ObjectMapper();
-        return dataMapper.readValue(jsonFile, new TypeReference<Map<String,String>>(){});
+        TypeReference<Map<String, String>> typeReference = new TypeReference<Map<String, String>>() {
+        };
+        return dataMapper.readValue(jsonFile, typeReference);
     }
 
     @Override

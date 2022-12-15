@@ -3,6 +3,11 @@ run-dist:
 
 build:
 	./gradlew installDist
+	./gradlew test
+	./gradlew checkstyleMain
+	./gradlew checkstyleTest
 
 run:
 	./gradlew run
+
+.PHONY: build

@@ -2,8 +2,6 @@ package hexlet.code;
 
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Differ {
 
