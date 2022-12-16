@@ -6,6 +6,9 @@ build:
 	./gradlew test
 	./gradlew checkstyleMain
 	./gradlew checkstyleTest
+	
+report:
+	./gradlew jacocoTestReport
 
 run:
 	./gradlew run
