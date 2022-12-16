@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 @Command(name = "gendiff",
         description = "Compares two configuration files and shows a difference.",
         mixinStandardHelpOptions = true)
-public class App implements Callable<Integer> {
+ class App implements Callable<Integer> {
     @Option(names = { "-f", "--format" }, paramLabel = "format", description = "output format [default: stylish]")
     private String format = "filepath1 filepath2";
 
