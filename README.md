@@ -7,5 +7,8 @@
 [![Actions Status](https://github.com/NiceBruce/java-project-71/workflows/hexlet-check/badge.svg)](https://github.com/NiceBruce/java-project-71/actions)
 
 
-### ASCIINEMA STEP 5 WATCH THIS:
+### ASCIINEMA STEP 6 WATCH THIS:
 https://asciinema.org/a/j2fDmOYycrxxwoqCxVB5eGhIm
+
+### ASCIINEMA STEP 7 WATCH THIS:
+https://asciinema.org/a/KVCARMm5OafkOn0OuXeQzvYJh
