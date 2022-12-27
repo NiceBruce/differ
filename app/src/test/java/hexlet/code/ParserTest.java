@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
+
 public class ParserTest {
 
     private static Map<String, String> dataFromJsonFile;

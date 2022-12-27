@@ -15,7 +15,9 @@ repositories {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.0'
     testImplementation 'org.assertj:assertj-core:3.23.1'
+    testImplementation 'net.joshka:junit-json-params:5.9.1-r0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
     implementation 'info.picocli:picocli:4.7.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
@@ -105,3 +107,4 @@ testlogger {
     // set to false to hide failed standard out and error streams
     showFailedStandardStreams true
 }
+

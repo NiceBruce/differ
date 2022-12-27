@@ -12,3 +12,6 @@ https://asciinema.org/a/j2fDmOYycrxxwoqCxVB5eGhIm
 
 ### ASCIINEMA STEP 7 WATCH THIS:
 https://asciinema.org/a/KVCARMm5OafkOn0OuXeQzvYJh
+
+### ASCIINEMA STEP 8, 9, 10 WATCH THIS:
+https://asciinema.org/a/4M9DOQkqQmnJUZ3viVlC7ErNh

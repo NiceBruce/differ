@@ -20,14 +20,18 @@ public class Parser {
         return Files.readString(path);
     }
 
-    public static Map<String, String> readDataFromFile(String fileName) throws Exception {
+    public static <T> Map<T, T> readDataFromFile(String fileName) throws Exception {
 
         String dataFromFile = getFile(fileName);
+
+        if (dataFromFile.equals("")) {
+            return Map.of();
+        }
+
         ObjectMapper dataMapper = new ObjectMapper();
 
-        TypeReference<Map<String, String>> typeReference = new TypeReference<>() {
+        TypeReference<Map<T, T>> typeReference = new TypeReference<>() {
         };
-
         return dataMapper.readValue(dataFromFile, typeReference);
     }
 }
