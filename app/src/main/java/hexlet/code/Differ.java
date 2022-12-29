@@ -10,6 +10,13 @@ import java.util.TreeMap;
 
 public class Differ {
 
+    private static String getDataFormat(String filePath) {
+        int index = filePath.lastIndexOf('.');
+        return index > 0
+                ? filePath.substring(index + 1)
+                : "";
+    }
+
     public static String readDataFromFile(String pathToFile) throws Exception {
 
         Path path = Paths.get(pathToFile).toAbsolutePath().normalize();
@@ -73,8 +80,8 @@ public class Differ {
         String dataFromFile2 = readDataFromFile(filePath2);
 
 
-        Map<Object, Object> file1 = Parser.parseDataToMap(dataFromFile1);
-        Map<Object, Object> file2 = Parser.parseDataToMap(dataFromFile2);
+        Map<Object, Object> file1 = Parser.parseDataToMap(dataFromFile1, getDataFormat(filePath1));
+        Map<Object, Object> file2 = Parser.parseDataToMap(dataFromFile2, getDataFormat(filePath2));
 
 
         ArrayList<Map<?, ?>> resultDiff = getDifference(file1, file2);
@@ -91,8 +98,8 @@ public class Differ {
         String dataFromFile1 = readDataFromFile(filePath1);
         String dataFromFile2 = readDataFromFile(filePath2);
 
-        Map<Object, Object> file1 = Parser.parseDataToMap(dataFromFile1);
-        Map<Object, Object> file2 = Parser.parseDataToMap(dataFromFile2);
+        Map<Object, Object> file1 = Parser.parseDataToMap(dataFromFile1, getDataFormat(filePath1));
+        Map<Object, Object> file2 = Parser.parseDataToMap(dataFromFile2, getDataFormat(filePath2));
 
 
         ArrayList<Map<?, ?>> resultDiff = getDifference(file1, file2);

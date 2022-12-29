@@ -3,6 +3,7 @@ package hexlet.code;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.junit.jupiter.api.BeforeAll;
 
 import org.junit.jupiter.api.Test;
@@ -64,9 +65,10 @@ public class DifferTest {
 
 
 
-    public static <T> Map<T, T> convertDataToMap(String fileName) throws Exception {
+    public static <T> Map<T, T> convertDataToMap(String fileName, String fileFormat) throws Exception {
         String dataFromFile = getDataFromFile(fileName);
-        ObjectMapper dataMapper = new ObjectMapper();
+        ObjectMapper dataMapper = (fileFormat.equals("yml"))
+                ? new ObjectMapper(new YAMLFactory()) : new ObjectMapper();
         TypeReference<Map<T, T>> typeReference = new TypeReference<>() {
         };
 
