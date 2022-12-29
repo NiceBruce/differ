@@ -18,16 +18,37 @@ public class Plain  implements Format {
         String formattedOutput = "";
 
         for (var node : differResult) {
-            if (node.containsValue("deleted")) {
-                formattedOutput += "Property '" + node.get("key") + "' was removed\n";
-            } else if (node.containsValue("added")) {
-                formattedOutput += "Property '" + node.get("key") + "' was added with value: "
-                        + isComplexValue(node.get("value")) + "\n";
-            } else if (node.containsValue("changed")) {
-                formattedOutput += "Property '" + node.get("key") + "' was updated. From "
-                        + isComplexValue(node.get("value1")) + " to "
-                        + isComplexValue(node.get("value2")) + "\n";
+
+            String type = (String) node.get("type");
+
+            switch (type) {
+                case "added":
+                    formattedOutput += "Property '" + node.get("key") + "' was added with value: "
+                            + isComplexValue(node.get("value")) + "\n";
+                    break;
+                case "deleted":
+                    formattedOutput += "Property '" + node.get("key") + "' was removed\n";
+                    break;
+                case "changed":
+                    formattedOutput += "Property '" + node.get("key") + "' was updated. From "
+                            + isComplexValue(node.get("value1")) + " to "
+                            + isComplexValue(node.get("value2")) + "\n";
+                    break;
+                case "unchanged":
+                    break;
+                default:
+                    throw new RuntimeException("Unknown node type: '" + type + "'");
             }
+//            if (node.containsValue("deleted")) {
+//                formattedOutput += "Property '" + node.get("key") + "' was removed\n";
+//            } else if (node.containsValue("added")) {
+//                formattedOutput += "Property '" + node.get("key") + "' was added with value: "
+//                        + isComplexValue(node.get("value")) + "\n";
+//            } else if (node.containsValue("changed")) {
+//                formattedOutput += "Property '" + node.get("key") + "' was updated. From "
+//                        + isComplexValue(node.get("value1")) + " to "
+//                        + isComplexValue(node.get("value2")) + "\n";
+//            }
         }
 
         return formattedOutput;

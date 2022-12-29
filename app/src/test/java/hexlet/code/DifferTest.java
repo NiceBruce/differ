@@ -5,17 +5,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.stream.Stream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class DifferTest {
     private static final int STYLISH_CASE_JSON12 = 0;
@@ -36,7 +38,8 @@ public class DifferTest {
     private static String dataFromJsonFile4;
     private static String dataFromYmlFile3;
     private static String dataFromYmlFile4;
-    private static String[] expectedDofferResultArray;
+
+    private static String[] expectedDifferResultArray;
     private static String resultDiffBeetweenJsonCase1;
     private static String resultDiffBeetweenJsonCase2;
     private static String emptyfile;
@@ -101,7 +104,7 @@ public class DifferTest {
         dataFromYmlFile3 = getPathFile("file3.yml").toString();
         dataFromYmlFile4 = getPathFile("file4.yml").toString();
         emptyfile = getPathFile("empty.json").toString();
-        expectedDofferResultArray = convertDataToArrayStr("resultArrayOfStrings.json");
+        expectedDifferResultArray = convertDataToArrayStr("resultArrayOfStrings.json");
         resultDiffBeetweenJsonCase1 = getDataFromFile("resultDiffBeetweenJson1_2.json");
         resultDiffBeetweenJsonCase2 = getDataFromFile("resultDiffBeetweenJson3_4.json");
     }
@@ -112,31 +115,31 @@ public class DifferTest {
                         dataFromJsonFile1, dataFromJsonFile2, "json"),
                 Arguments.of(resultDiffBeetweenJsonCase2,
                         dataFromJsonFile3, dataFromJsonFile4, "json"),
-                Arguments.of(expectedDofferResultArray[STYLISH_CASE_JSON12],
+                Arguments.of(expectedDifferResultArray[STYLISH_CASE_JSON12],
                         dataFromJsonFile1, dataFromJsonFile2, ""),
-                Arguments.of(expectedDofferResultArray[STYLISH_CASE_JSON34],
+                Arguments.of(expectedDifferResultArray[STYLISH_CASE_JSON34],
                         dataFromJsonFile3, dataFromJsonFile4, ""),
-                Arguments.of(expectedDofferResultArray[PLAIN_CASE_JSON12],
+                Arguments.of(expectedDifferResultArray[PLAIN_CASE_JSON12],
                         dataFromJsonFile1, dataFromJsonFile2, "plain"),
-                Arguments.of(expectedDofferResultArray[PLAIN_CASE_JSON34],
+                Arguments.of(expectedDifferResultArray[PLAIN_CASE_JSON34],
                         dataFromJsonFile3, dataFromJsonFile4, "plain"),
                 Arguments.of(resultDiffBeetweenJsonCase1,
                         dataFromYmlFile1, dataFromYmlFile2, "json"),
                 Arguments.of(resultDiffBeetweenJsonCase2,
                         dataFromYmlFile3, dataFromYmlFile4, "json"),
-                Arguments.of(expectedDofferResultArray[STYLISH_CASE_JSON12],
+                Arguments.of(expectedDifferResultArray[STYLISH_CASE_JSON12],
                         dataFromYmlFile1, dataFromYmlFile2, ""),
-                Arguments.of(expectedDofferResultArray[STYLISH_CASE_JSON34],
+                Arguments.of(expectedDifferResultArray[STYLISH_CASE_JSON34],
                         dataFromYmlFile3, dataFromYmlFile4, ""),
-                Arguments.of(expectedDofferResultArray[PLAIN_CASE_JSON12],
+                Arguments.of(expectedDifferResultArray[PLAIN_CASE_JSON12],
                         dataFromYmlFile1, dataFromYmlFile2, "plain"),
-                Arguments.of(expectedDofferResultArray[PLAIN_CASE_JSON34],
+                Arguments.of(expectedDifferResultArray[PLAIN_CASE_JSON34],
                         dataFromYmlFile3, dataFromYmlFile4, "plain"),
-                Arguments.of(expectedDofferResultArray[EMPTY_CASE],
+                Arguments.of(expectedDifferResultArray[EMPTY_CASE],
                         emptyfile, emptyfile, ""),
-                Arguments.of(expectedDofferResultArray[FILE1_EMPTY_CASE],
+                Arguments.of(expectedDifferResultArray[FILE1_EMPTY_CASE],
                         dataFromJsonFile1, emptyfile, ""),
-                Arguments.of(expectedDofferResultArray[FILE2_EMPTY_CASE],
+                Arguments.of(expectedDifferResultArray[FILE2_EMPTY_CASE],
                         emptyfile, dataFromJsonFile2, "")
 
         );
@@ -144,7 +147,15 @@ public class DifferTest {
     @ParameterizedTest
     @MethodSource("provideStringsForIsBlank")
     public final void differTest(String expeted, String filepath1, String filepath2,
-                        String format) {
+                        String format) throws Exception {
         assertEquals(expeted, Differ.generate(filepath1, filepath2, format));
+    }
+
+    @Test
+    void testParserThrowsException() {
+        Throwable exception = assertThrows(Exception.class,
+                () -> Differ.readDataFromFile("!!!NOTHING!!!"));
+
+        assertTrue(exception.getMessage().contains("does not exist"));
     }
 }

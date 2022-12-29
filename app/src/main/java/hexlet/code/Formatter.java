@@ -6,16 +6,22 @@ import hexlet.code.formatters.Stylish;
 
 public class Formatter {
 
+    public final Format createFormatter() {
+        return new Stylish();
+    }
 
     public final Format createFormatter(String type) {
         Format format = null;
 
-        if (type.equals("json")) {
-            format = new Json();
-        } else if (type.equals("plain")) {
-            format = new Plain();
-        } else {
-            format = new Stylish();
+        switch (type) {
+            case "json":
+                format = new Json();
+                break;
+            case "plain":
+                format = new Plain();
+                break;
+            default:
+                format = new Stylish();
         }
 
         return format;

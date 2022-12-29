@@ -11,8 +11,13 @@ import java.util.concurrent.Callable;
         description = "Compares two configuration files and shows a difference.",
         mixinStandardHelpOptions = true)
  class App implements Callable<Integer> {
-    @Option(names = { "-f", "--format" }, paramLabel = "format", description = "output format [default: stylish]")
-    private String format = "stylish";
+
+    private static final int SUCCESS_EXIT_CODE = 0;
+    private static final int ERROR_EXIT_CODE = 1;
+
+    @Option(names = { "-f", "--format" }, paramLabel = "format",
+            description = "output format [default: stylish]", defaultValue = "stylish")
+    private String format;
 
     @Parameters(paramLabel = "filepath1", description = "path to first file")
     private String filePath1;
@@ -21,15 +26,19 @@ import java.util.concurrent.Callable;
     private String filePath2;
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
 
-        String str = Differ.generate(filePath1, filePath2, format);
-        System.out.println(str);
+        try {
+            String formattedDiff = Differ.generate(filePath1, filePath2, format);
+            System.out.println(formattedDiff);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return ERROR_EXIT_CODE;
+        }
 
-        return 0;
+        return SUCCESS_EXIT_CODE;
     }
     public static void main(String[] args) throws Exception {
-
         int exitCode = new CommandLine(new App()).execute(args);
         System.exit(exitCode);
     }

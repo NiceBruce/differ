@@ -3,48 +3,41 @@ package hexlet.code;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.Map;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 
 
 public class ParserTest {
 
-    private static Map<String, String> dataFromJsonFile;
+    private static Map<?, ?> dataFromJsonFile;
+    private static String rawData;
 
     @BeforeAll
     public static void beforeAll() throws Exception {
+
         dataFromJsonFile = DifferTest.convertDataToMap("file1.json");
+        rawData = DifferTest.getDataFromFile("file1.json");
     }
 
     @Test
-    void testParserThrowsException() {
-        Throwable exception = assertThrows(Exception.class,
-                () -> Parser.getFile("!!!NOTHING!!!"));
+    void testparseDataToMap() throws Exception {
+        System.out.println(dataFromJsonFile);
+        System.out.println(Parser.parseDataToMap(rawData));
 
-        assertTrue(exception.getMessage().contains("does not exist"));
-    }
-
-    @Test
-    void testParserReadDataFromFile() throws Exception {
         assertEquals(dataFromJsonFile,
-                Parser.readDataFromFile(DifferTest.getPathFile("file1.json").toString()));
+                Parser.parseDataToMap(rawData));
+    }
+    @Test
+    void testParserReadDataFromEmnptyFile() throws Exception {
+        assertEquals(Map.of(),
+                Parser.parseDataToMap(""));
     }
 
     @Test
-    void testParserReadDataFromFile2() throws Exception {
-        assertNotEquals(dataFromJsonFile,
-                Parser.readDataFromFile(DifferTest.getPathFile("file2.json").toString()));
-    }
-
-    @Test
-    void testParserReadDataFromFile3() {
+    void testParserReadDataWithWrongData() {
         Throwable exception = assertThrows(Exception.class,
-                () -> Parser.readDataFromFile("!!!NOTHING!!!"));
-
-        assertTrue(exception.getMessage().contains("does not exist"));
+                () -> Parser.parseDataToMap("qwerty"));
+        assertTrue(exception.getMessage().contains("Unrecognized token 'qwerty'"));
     }
 }

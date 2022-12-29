@@ -1,11 +1,24 @@
 package hexlet.code;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Differ {
+
+    public static String readDataFromFile(String pathToFile) throws Exception {
+
+        Path path = Paths.get(pathToFile).toAbsolutePath().normalize();
+
+        if (!Files.exists(path)) {
+            throw new Exception("File '" + path + "' does not exist");
+        }
+        return Files.readString(path);
+    }
 
     public static <T> Map<?, ?> createNode(String type, T key, T... values) {
         Map<?, ?> node = new LinkedHashMap<>() {{
@@ -22,20 +35,7 @@ public class Differ {
         return node;
     }
 
-    public static <T> String generate(String filePath1, String filePath2, String format) {
-
-        Map<T, T> file1;
-        Map<T, T> file2;
-
-        try {
-            file1 = Parser.readDataFromFile(filePath1);
-            file2 = Parser.readDataFromFile(filePath2);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        Formatter formatter = new Formatter();
-        Format currentFormat = formatter.createFormatter(format);
+    public static <T> ArrayList<Map<?, ?>> getDifference(Map<T, T> file1, Map<T, T> file2) {
 
         TreeMap<T, T> uniqDataFromTwoFiles = new TreeMap<>(file1);
         uniqDataFromTwoFiles.putAll(file2);
@@ -62,6 +62,43 @@ public class Differ {
                         file2.get(e.getKey())));
             }
         }
+
+        return resultDiff;
+    }
+
+    public static String generate(String filePath1, String filePath2) throws Exception {
+
+
+        String dataFromFile1 = readDataFromFile(filePath1);
+        String dataFromFile2 = readDataFromFile(filePath2);
+
+
+        Map<Object, Object> file1 = Parser.parseDataToMap(dataFromFile1);
+        Map<Object, Object> file2 = Parser.parseDataToMap(dataFromFile2);
+
+
+        ArrayList<Map<?, ?>> resultDiff = getDifference(file1, file2);
+
+        Formatter formatter = new Formatter();
+        Format currentFormat = formatter.createFormatter();
+
+        return currentFormat.print(resultDiff);
+    }
+
+    public static String generate(String filePath1, String filePath2, String format) throws Exception {
+
+
+        String dataFromFile1 = readDataFromFile(filePath1);
+        String dataFromFile2 = readDataFromFile(filePath2);
+
+        Map<Object, Object> file1 = Parser.parseDataToMap(dataFromFile1);
+        Map<Object, Object> file2 = Parser.parseDataToMap(dataFromFile2);
+
+
+        ArrayList<Map<?, ?>> resultDiff = getDifference(file1, file2);
+
+        Formatter formatter = new Formatter();
+        Format currentFormat = formatter.createFormatter(format);
 
         return currentFormat.print(resultDiff);
     }

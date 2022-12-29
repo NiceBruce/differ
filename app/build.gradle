@@ -1,5 +1,4 @@
 plugins {
-    id 'java'
     id 'application'
     id 'checkstyle'
     id 'jacoco'
@@ -21,9 +20,6 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
     implementation 'info.picocli:picocli:4.7.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
-    //    testImplementation(platform('org.junit:junit-bom:5.9.1'))
-    //    testImplementation('org.junit.jupiter:junit-jupiter')
-    //    annotationProcessor 'info.picocli:picocli-codegen:4.7.0'
 }
 
 application {
