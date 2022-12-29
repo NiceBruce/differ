@@ -47,6 +47,6 @@ public class Stylish implements Format {
 
         formattedOutput += "}";
 
-        return formattedOutput;
+        return formattedOutput.trim();
     }
 }

@@ -51,6 +51,6 @@ public class Plain  implements Format {
 //            }
         }
 
-        return formattedOutput;
+        return formattedOutput.trim();
     }
 }
