@@ -1,11 +1,11 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Format;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
-public class Plain  implements Format {
+public class Plain {
 
     public static <T> T isComplexValue(T value) {
         return (value instanceof ArrayList || value instanceof LinkedHashMap)
@@ -13,8 +13,7 @@ public class Plain  implements Format {
                 ? (T) ("'" + value + "'") : value;
     }
 
-    @Override
-    public final <T> String print(ArrayList<Map<?, ?>> differResult) {
+    public static <T> String print(LinkedList<Map<?, ?>> differResult) {
         String formattedOutput = "";
 
         for (var node : differResult) {
@@ -39,16 +38,6 @@ public class Plain  implements Format {
                 default:
                     throw new RuntimeException("Unknown node type: '" + type + "'");
             }
-//            if (node.containsValue("deleted")) {
-//                formattedOutput += "Property '" + node.get("key") + "' was removed\n";
-//            } else if (node.containsValue("added")) {
-//                formattedOutput += "Property '" + node.get("key") + "' was added with value: "
-//                        + isComplexValue(node.get("value")) + "\n";
-//            } else if (node.containsValue("changed")) {
-//                formattedOutput += "Property '" + node.get("key") + "' was updated. From "
-//                        + isComplexValue(node.get("value1")) + " to "
-//                        + isComplexValue(node.get("value2")) + "\n";
-//            }
         }
 
         return formattedOutput.trim();

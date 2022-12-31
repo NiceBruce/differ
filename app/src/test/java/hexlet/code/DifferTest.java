@@ -74,15 +74,6 @@ public class DifferTest {
 
         return dataMapper.readValue(dataFromFile, typeReference);
     }
-//
-//    public static <T> ArrayList<Map<?, ?>> convertDataToListOfMap(String fileName) throws Exception {
-//        String dataFromFile = getDataFromFile(fileName);
-//        ObjectMapper dataMapper = new ObjectMapper();
-//        TypeReference<ArrayList<Map<?, ?>>> typeReference = new TypeReference<>() {
-//        };
-//
-//        return dataMapper.readValue(dataFromFile, typeReference);
-//    }
 
     public static String[] convertDataToArrayStr(String fileName) throws Exception {
         String dataFromFile = getDataFromFile(fileName);
@@ -118,9 +109,9 @@ public class DifferTest {
                 Arguments.of(resultDiffBeetweenJsonCase2,
                         dataFromJsonFile3, dataFromJsonFile4, "json"),
                 Arguments.of(expectedDifferResultArray[STYLISH_CASE_JSON12],
-                        dataFromJsonFile1, dataFromJsonFile2, ""),
+                        dataFromJsonFile1, dataFromJsonFile2, "stylish"),
                 Arguments.of(expectedDifferResultArray[STYLISH_CASE_JSON34],
-                        dataFromJsonFile3, dataFromJsonFile4, ""),
+                        dataFromJsonFile3, dataFromJsonFile4, "stylish"),
                 Arguments.of(expectedDifferResultArray[PLAIN_CASE_JSON12],
                         dataFromJsonFile1, dataFromJsonFile2, "plain"),
                 Arguments.of(expectedDifferResultArray[PLAIN_CASE_JSON34],
@@ -130,19 +121,19 @@ public class DifferTest {
                 Arguments.of(resultDiffBeetweenJsonCase2,
                         dataFromYmlFile3, dataFromYmlFile4, "json"),
                 Arguments.of(expectedDifferResultArray[STYLISH_CASE_JSON12],
-                        dataFromYmlFile1, dataFromYmlFile2, ""),
+                        dataFromYmlFile1, dataFromYmlFile2, "stylish"),
                 Arguments.of(expectedDifferResultArray[STYLISH_CASE_JSON34],
-                        dataFromYmlFile3, dataFromYmlFile4, ""),
+                        dataFromYmlFile3, dataFromYmlFile4, "stylish"),
                 Arguments.of(expectedDifferResultArray[PLAIN_CASE_JSON12],
                         dataFromYmlFile1, dataFromYmlFile2, "plain"),
                 Arguments.of(expectedDifferResultArray[PLAIN_CASE_JSON34],
-                        dataFromYmlFile3, dataFromYmlFile4, "plain"),
-                Arguments.of(expectedDifferResultArray[EMPTY_CASE],
-                        emptyfile, emptyfile, ""),
-                Arguments.of(expectedDifferResultArray[FILE1_EMPTY_CASE],
-                        dataFromJsonFile1, emptyfile, ""),
-                Arguments.of(expectedDifferResultArray[FILE2_EMPTY_CASE],
-                        emptyfile, dataFromJsonFile2, "")
+                        dataFromYmlFile3, dataFromYmlFile4, "plain")
+//                Arguments.of(expectedDifferResultArray[EMPTY_CASE],
+//                        emptyfile, emptyfile, "stylish")
+//                Arguments.of(expectedDifferResultArray[FILE1_EMPTY_CASE],
+//                        dataFromJsonFile1, emptyfile, "stylish"),
+//                Arguments.of(expectedDifferResultArray[FILE2_EMPTY_CASE],
+//                        emptyfile, dataFromJsonFile2, "stylish")
 
         );
     }
@@ -159,5 +150,12 @@ public class DifferTest {
                 () -> Differ.readDataFromFile("!!!NOTHING!!!"));
 
         assertTrue(exception.getMessage().contains("does not exist"));
+    }
+
+    @Test
+    void testParserThrowsExceptionWhenEmptyFile() {
+        Throwable exception = assertThrows(Exception.class,
+                () -> Differ.generate(emptyfile, emptyfile));
+        assertTrue(exception.getMessage().contains("No content to map due to end-of-input"));
     }
 }

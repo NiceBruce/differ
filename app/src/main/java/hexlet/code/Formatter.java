@@ -3,28 +3,21 @@ package hexlet.code;
 import hexlet.code.formatters.Json;
 import hexlet.code.formatters.Plain;
 import hexlet.code.formatters.Stylish;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class Formatter {
 
-    public final Format createFormatter() {
-        return new Stylish();
-    }
+    public static String createFormatter(LinkedList<Map<?, ?>> resultDiff, String type) throws Exception {
 
-    public final Format createFormatter(String type) {
-        Format format = null;
+        String result = switch (type) {
+            case "stylish" -> Stylish.print(resultDiff);
+            case "json" -> Json.print(resultDiff);
+            case "plain" -> Plain.print(resultDiff);
+            default -> throw new Exception("Unknown format: '" + type + "'");
+        };
 
-        switch (type) {
-            case "json":
-                format = new Json();
-                break;
-            case "plain":
-                format = new Plain();
-                break;
-            default:
-                format = new Stylish();
-        }
-
-        return format;
+        return result;
     }
 
 }
