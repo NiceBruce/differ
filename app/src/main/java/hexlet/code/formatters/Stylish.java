@@ -6,7 +6,7 @@ import java.util.Map;
 public class Stylish {
 
 
-    public static <T> String print(LinkedList<Map<?, ?>> differResult) {
+    public static String print(LinkedList<Map<?, ?>> differResult) {
 
         String formattedOutput = "{\n";
 

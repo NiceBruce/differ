@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Json {
 
-    public static <T> String print(LinkedList<Map<?, ?>> differResult) throws Exception {
+    public static String print(LinkedList<Map<?, ?>> differResult) throws Exception {
 
         String resultJson = "";
         ObjectMapper dataMapper = new ObjectMapper();

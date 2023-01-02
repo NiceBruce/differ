@@ -1,7 +1,5 @@
 package hexlet.code;
 
-
-
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;

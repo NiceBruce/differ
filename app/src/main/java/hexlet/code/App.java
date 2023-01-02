@@ -40,7 +40,6 @@ import java.util.concurrent.Callable;
 
     }
     public static void main(String[] args) throws Exception {
-
         int exitCode = new CommandLine(new App()).execute(args);
         System.exit(exitCode);
     }

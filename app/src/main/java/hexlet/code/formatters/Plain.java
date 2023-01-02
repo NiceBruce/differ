@@ -13,7 +13,7 @@ public class Plain {
                 ? (T) ("'" + value + "'") : value;
     }
 
-    public static <T> String print(LinkedList<Map<?, ?>> differResult) {
+    public static String print(LinkedList<Map<?, ?>> differResult) {
         String formattedOutput = "";
 
         for (var node : differResult) {
