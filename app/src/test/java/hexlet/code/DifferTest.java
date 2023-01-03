@@ -62,7 +62,7 @@ public class DifferTest {
     @Test
     void testParserThrowsException() {
         Throwable exception = assertThrows(Exception.class,
-                () -> Differ.readDataFromFile("!!!NOTHING!!!"));
+                () -> Parser.readDataFromFile("!!!NOTHING!!!"));
 
         assertTrue(exception.getMessage().contains("does not exist"));
     }

@@ -1,40 +1,9 @@
 package hexlet.code;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
-
 public class Differ {
-
-    private static String getDataFormat(String filePath) {
-        int index = filePath.lastIndexOf('.');
-        return index > 0
-                ? filePath.substring(index + 1)
-                : "";
-    }
-
-    public static LinkedList<Map<String, String>> readDataFromFile(String... pathToFile) throws Exception {
-
-        LinkedList<Map<String, String>> rawData = new LinkedList<>();
-
-        for (var file : pathToFile) {
-
-            Path path = Paths.get(file).toAbsolutePath().normalize();
-
-            if (!Files.exists(path)) {
-                throw new Exception("File '" + path + "' does not exist");
-            }
-
-            rawData.add(Map.of(getDataFormat(file), Files.readString(path)));
-        }
-
-        return rawData;
-    }
-
-
 
     public static String generate(String filePath1, String filePath2) throws Exception {
 
@@ -43,12 +12,11 @@ public class Differ {
 
     public static String generate(String filePath1, String filePath2, String format) throws Exception {
 
-        var rawData = readDataFromFile(filePath1, filePath2);
+        Map<String, Object>  data1 = new Parser(filePath1).parseDataToMap();
+        Map<String, Object>  data2 = new Parser(filePath2).parseDataToMap();
 
-        var data = Parser.parseDataToMap(rawData);
+        List<Map<String, Object>> resultDiff = DiffBuilder.getDifference(data1, data2);
 
-        var resultDiff = DiffBuilder.getDifference(data);
-
-        return Formatter.createFormatter(resultDiff, format);
+        return Formatter.format(resultDiff, format);
     }
 }

@@ -1,18 +1,15 @@
 package hexlet.code.formatters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class Json {
 
-    public static String print(LinkedList<Map<?, ?>> differResult) throws Exception {
+    public static String getFormattedString(List<Map<String, Object>> differResult) throws Exception {
 
-        String resultJson = "";
         ObjectMapper dataMapper = new ObjectMapper();
 
-        resultJson = dataMapper.writerWithDefaultPrettyPrinter().writeValueAsString(differResult);
-
-        return resultJson;
+        return dataMapper.writerWithDefaultPrettyPrinter().writeValueAsString(differResult);
     }
 }

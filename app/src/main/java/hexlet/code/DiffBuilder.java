@@ -1,13 +1,14 @@
 package hexlet.code;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.TreeMap;
+import java.util.LinkedHashMap;
 
 public class DiffBuilder {
-    public static <T> Map<?, ?> createNode(String type, T key, T... values) {
-        Map<?, ?> node = new LinkedHashMap<>() {{
+    public static Map<String, Object> createNode(String type, String key, Object... values) {
+        Map<String, Object> node = new LinkedHashMap<>() {{
                 put("key", key);
                 put("type", type);
                 if (type.equals("changed")) {
@@ -21,35 +22,32 @@ public class DiffBuilder {
         return node;
     }
 
-    public static <T> LinkedList<Map<?, ?>> getDifference(LinkedList<Map<T, T>> dataFromParser) {
+    public static List<Map<String, Object>> getDifference(Map<String, Object> file1,
+                                                                    Map<String, Object> file2) {
 
-        TreeMap<T, T> uniqDataFromTwoFiles = new TreeMap<>();
-        LinkedList<Map<?, ?>> resultDiff = new LinkedList<>();
-        Map<T, T> data1 = dataFromParser.get(0);
-        Map<T, T> data2 = dataFromParser.get(1);
+        Map<String, Object> uniqDataFromTwoFiles = new TreeMap<>(file1);
+        uniqDataFromTwoFiles.putAll(file2);
 
-        for (var data : dataFromParser) {
-            uniqDataFromTwoFiles.putAll(data);
-        }
+        List<Map<String, Object>> resultDiff = new LinkedList<>();
 
         for (var e: uniqDataFromTwoFiles.entrySet()) {
 
-            if (data1.containsKey(e.getKey()) && !data2.containsKey(e.getKey())) {
+            if (file1.containsKey(e.getKey()) && !file2.containsKey(e.getKey())) {
 
-                resultDiff.add(createNode("deleted", e.getKey(), data1.get(e.getKey())));
+                resultDiff.add(createNode("deleted", e.getKey(), file1.get(e.getKey())));
 
-            } else if (!data1.containsKey(e.getKey()) && data2.containsKey(e.getKey())) {
+            } else if (!file1.containsKey(e.getKey()) && file2.containsKey(e.getKey())) {
 
-                resultDiff.add(createNode("added", e.getKey(), data2.get(e.getKey())));
+                resultDiff.add(createNode("added", e.getKey(), file2.get(e.getKey())));
 
-            } else if (!((data1.get(e.getKey())) == null || (data2.get(e.getKey())) == null)
-                    && ((data1.get(e.getKey())).equals(data2.get(e.getKey())))) {
+            } else if (!((file1.get(e.getKey())) == null || (file2.get(e.getKey())) == null)
+                    && ((file1.get(e.getKey())).equals(file2.get(e.getKey())))) {
 
                 resultDiff.add(createNode("unchanged", e.getKey(), e.getValue()));
 
             } else {
-                resultDiff.add(createNode("changed", e.getKey(), data1.get(e.getKey()),
-                        data2.get(e.getKey())));
+                resultDiff.add(createNode("changed", e.getKey(), file1.get(e.getKey()),
+                        file2.get(e.getKey())));
             }
         }
 

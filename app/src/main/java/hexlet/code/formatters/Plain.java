@@ -1,20 +1,20 @@
 package hexlet.code.formatters;
 
+import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class Plain {
 
-    public static <T> T isComplexValue(T value) {
+    public static Object isComplexValue(Object value) {
         return (value instanceof ArrayList || value instanceof LinkedHashMap)
-                ? (T) "[complex value]" : (value instanceof String)
-                ? (T) ("'" + value + "'") : value;
+                ? "[complex value]" : (value instanceof String)
+                ? ("'" + value + "'") : value;
     }
 
-    public static String print(LinkedList<Map<?, ?>> differResult) {
-        String formattedOutput = "";
+    public static String getFormattedString(List<Map<String, Object>> differResult) {
+        StringBuilder formattedOutput = new StringBuilder();
 
         for (var node : differResult) {
 
@@ -22,16 +22,16 @@ public class Plain {
 
             switch (type) {
                 case "added":
-                    formattedOutput += "Property '" + node.get("key") + "' was added with value: "
-                            + isComplexValue(node.get("value")) + "\n";
+                    formattedOutput.append("Property '").append(node.get("key")).append("' was added with value: ")
+                            .append(isComplexValue(node.get("value"))).append("\n");
                     break;
                 case "deleted":
-                    formattedOutput += "Property '" + node.get("key") + "' was removed\n";
+                    formattedOutput.append("Property '").append(node.get("key")).append("' was removed\n");
                     break;
                 case "changed":
-                    formattedOutput += "Property '" + node.get("key") + "' was updated. From "
-                            + isComplexValue(node.get("value1")) + " to "
-                            + isComplexValue(node.get("value2")) + "\n";
+                    formattedOutput.append("Property '").append(node.get("key")).append("' was updated. From ")
+                            .append(isComplexValue(node.get("value1"))).append(" to ")
+                            .append(isComplexValue(node.get("value2"))).append("\n");
                     break;
                 case "unchanged":
                     break;
@@ -40,6 +40,6 @@ public class Plain {
             }
         }
 
-        return formattedOutput.trim();
+        return formattedOutput.toString().trim();
     }
 }
