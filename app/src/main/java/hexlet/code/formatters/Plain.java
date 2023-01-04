@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 
 public class Plain {
 
-    public static Object isComplexValue(Object value) {
+    public static Object toNormalizeValue(Object value) {
         return (value instanceof ArrayList || value instanceof LinkedHashMap)
                 ? "[complex value]" : (value instanceof String)
                 ? ("'" + value + "'") : value;
@@ -23,15 +23,15 @@ public class Plain {
             switch (type) {
                 case "added":
                     formattedOutput.append("Property '").append(node.get("key")).append("' was added with value: ")
-                            .append(isComplexValue(node.get("value"))).append("\n");
+                            .append(toNormalizeValue(node.get("value"))).append("\n");
                     break;
                 case "deleted":
                     formattedOutput.append("Property '").append(node.get("key")).append("' was removed\n");
                     break;
                 case "changed":
                     formattedOutput.append("Property '").append(node.get("key")).append("' was updated. From ")
-                            .append(isComplexValue(node.get("value1"))).append(" to ")
-                            .append(isComplexValue(node.get("value2"))).append("\n");
+                            .append(toNormalizeValue(node.get("value1"))).append(" to ")
+                            .append(toNormalizeValue(node.get("value2"))).append("\n");
                     break;
                 case "unchanged":
                     break;
