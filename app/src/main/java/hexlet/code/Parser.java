@@ -11,14 +11,8 @@ import java.util.Map;
 
 public class Parser {
 
-    private final String typeOfFile;
-    private final String filePath;
-    private final TypeReference<Map<String, Object>> typeReference = new TypeReference<>() {
-    };
-
-    public Parser(String pathToFile) {
-        this.filePath = pathToFile;
-        this.typeOfFile = filePath.substring(filePath.lastIndexOf('.') + 1);
+    public static String getType(String pathToFile) {
+        return pathToFile.substring(pathToFile.lastIndexOf('.') + 1);
     }
 
     public static String readDataFromFile(String pathToFile) throws Exception {
@@ -31,16 +25,23 @@ public class Parser {
         return Files.readString(path);
     }
 
+    public static ObjectMapper selectParser(String pathToFile) throws Exception {
 
-    public final Map<String, Object> parseDataToMap() throws Exception {
+        String typeOfFile = getType(pathToFile);
 
-        ObjectMapper dataMapper;
-        String rawData = readDataFromFile(filePath);
-
-        dataMapper = switch (typeOfFile) {
+        return switch (typeOfFile) {
             case "yml", "yaml" -> new ObjectMapper(new YAMLFactory());
             case "json" -> new ObjectMapper();
             default -> throw new Exception("Unknown format: '" + typeOfFile + "'");
+        };
+    }
+
+    public final Map<String, Object> parseData(String pathToFile) throws Exception {
+
+        String rawData = readDataFromFile(pathToFile);
+        ObjectMapper dataMapper = selectParser(pathToFile);
+
+        TypeReference<Map<String, Object>> typeReference = new TypeReference<>() {
         };
 
         return dataMapper.readValue(rawData, typeReference);
