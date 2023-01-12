@@ -13,44 +13,29 @@ public class Plain {
                 ? ("'" + value + "'") : value;
     }
 
-    public static void concat(StringBuilder sb, Object... dataSet) {
-
-        for (Object data : dataSet) {
-            sb.append(data);
-        }
-    }
-
     public static String getFormattedString(List<Map<String, Object>> differResult) {
         StringBuilder formattedOutput = new StringBuilder();
+        String propertyAdd = "Property '%s' was added with value: %s\n";
+        String propertyDel = "Property '%s' was removed\n";
+        String propertyChange = "Property '%s' was updated. From %s to %s\n";
 
         for (var node : differResult) {
-
             String type = (String) node.get("type");
 
             switch (type) {
                 case "added":
-                    concat(formattedOutput, "Property '",
-                            node.get("key"),
-                            "' was added with value: ",
-                            normalizeValue(node.get("value")),
-                            "\n"
-                    );
+                    formattedOutput.append(String.format(propertyAdd, node.get("key"),
+                            normalizeValue(node.get("value"))
+                    ));
                     break;
                 case "deleted":
-                    concat(formattedOutput, "Property '",
-                            node.get("key"),
-                            "' was removed\n"
-                    );
+                    formattedOutput.append(String.format(propertyDel, node.get("key")));
                     break;
                 case "changed":
-                    concat(formattedOutput, "Property '",
-                            node.get("key"),
-                            "' was updated. From ",
+                    formattedOutput.append(String.format(propertyChange, node.get("key"),
                             normalizeValue(node.get("value1")),
-                            " to ",
-                            normalizeValue(node.get("value2")),
-                            "\n"
-                    );
+                            normalizeValue(node.get("value2"))
+                    ));
                     break;
                 case "unchanged":
                     break;

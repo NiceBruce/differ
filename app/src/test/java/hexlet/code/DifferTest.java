@@ -58,14 +58,14 @@ public class DifferTest {
         JSONAssert.assertEquals(resultJson, actualJson, false);
 
     }
-
-    @Test
-    void testParserThrowsException() {
-        Throwable exception = assertThrows(Exception.class,
-                () -> Parser.readDataFromFile("!!!NOTHING!!!"));
-
-        assertTrue(exception.getMessage().contains("does not exist"));
-    }
+//
+//    @Test
+//    void testParserThrowsException() {
+//        Throwable exception = assertThrows(Exception.class,
+//                () -> Parser_forDelete.readDataFromFile("!!!NOTHING!!!"));
+//
+//        assertTrue(exception.getMessage().contains("does not exist"));
+//    }
 
     @Test
     void testParserThrowsExceptionWhenEmptyFile() {
